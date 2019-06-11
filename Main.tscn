@@ -6,78 +6,47 @@
 [ext_resource path="res://hud.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Curve2D" id=1]
-
-bake_interval = 5.0
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, -3.41696, 1.34622, 0, 0, 0, 0, 479.516, 4.06696, 0, 0, 0, 0, 476.795, 720.984, 0, 0, 0, 0, -3.41696, 719.624, 0, 0, 0, 0, -3.41696, 1.34622 )
 }
 
-[node name="Main" type="Node" index="0"]
-
+[node name="Main" type="Node"]
 script = ExtResource( 1 )
 Mob = ExtResource( 2 )
 
-[node name="Player" parent="." index="0" instance=ExtResource( 3 )]
+[node name="Mob" parent="." instance=ExtResource( 2 )]
+position = Vector2( -193.316, 200.476 )
 
-[node name="MobTimer" type="Timer" parent="." index="1"]
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( -353.199, 116.849 )
 
-process_mode = 1
+[node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
-one_shot = false
-autostart = false
 
-[node name="ScoreTimer" type="Timer" parent="." index="2"]
+[node name="ScoreTimer" type="Timer" parent="."]
 
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
-
-[node name="StartTimer" type="Timer" parent="." index="3"]
-
-process_mode = 1
+[node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-autostart = false
 
-[node name="StartPosition" type="Position2D" parent="." index="4"]
-
+[node name="StartPosition" type="Position2D" parent="."]
 position = Vector2( 240, 450 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="MobPath" type="Path2D" parent="." index="5"]
-
-self_modulate = Color( 0.5, 0.6, 1, 0.7 )
+[node name="MobPath" type="Path2D" parent="."]
 curve = SubResource( 1 )
 
-[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath" index="0"]
-
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 position = Vector2( -3.41696, 1.34622 )
 rotation = 0.00563376
-offset = 0.0
-h_offset = 0.0
-v_offset = 0.0
-rotate = true
-cubic_interp = true
-loop = true
-lookahead = 4.0
 
-[node name="hud" parent="." index="6" instance=ExtResource( 4 )]
+[node name="hud" parent="." instance=ExtResource( 4 )]
 
-[connection signal="hit" from="Player" to="hud" method="_on_Player_hit"]
-
+[connection signal="hit" from="Player" to="Mob" method="_on_Player_hit"]
 [connection signal="hit" from="Player" to="." method="game_over"]
-
-[connection signal="timeout" from="MobTimer" to="hud" method="_on_MobTimer_timeout"]
-
+[connection signal="hit" from="Player" to="hud" method="_on_Player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
-
+[connection signal="timeout" from="MobTimer" to="hud" method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="hud" method="_on_ScoreTimer_timeout"]
-
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
-
-[connection signal="start_game" from="hud" to="hud" method="new_game"]
-
 [connection signal="start_game" from="hud" to="." method="_on_hud_start_game"]
-
-
+[connection signal="start_game" from="hud" to="hud" method="new_game"]

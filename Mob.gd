@@ -12,12 +12,13 @@ func _on_Visibility_screen_exited():
 
 func _ready():
 	$AnimatedSprite.animation = mob_types[randi() % mob_types.size()]
-	
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	pass
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
+
+
+func _on_Player_hit():
+	$CollisionShape2D.disabled = true
+	$AnimatedSprite.hide()
